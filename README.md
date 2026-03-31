@@ -1,4 +1,4 @@
-link=https://prathmeshk007-sentiment-analysis-app-run-3dyucy.streamlit.app/
+link=https://prathmeshk007-sentiment-analysis-app-run-cwyd6c.streamlit.app/
 # Sentiment Analysis Movie Reviews 🎭
 
 A simple machine learning project that predicts the sentiment of movie reviews (Positive or Negative) using a Logistic Regression model and a Streamlit web interface.
