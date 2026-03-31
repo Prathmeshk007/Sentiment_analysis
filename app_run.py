@@ -1,10 +1,22 @@
 ﻿import streamlit as st
 import pickle
 import re
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+import subprocess
+import sys
 import sklearn
+import nltk
+
+# Try to install nltk if not available
+try:
+    import nltk
+    from nltk.corpus import stopwords
+    from nltk.stem import WordNetLemmatizer
+except ImportError:
+    st.write("🔧 Installing NLTK...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "nltk==3.6.7"])
+    import nltk
+    from nltk.corpus import stopwords
+    from nltk.stem import WordNetLemmatizer
 
 # ✅ Download NLTK resources once at the top
 nltk.download('stopwords')
