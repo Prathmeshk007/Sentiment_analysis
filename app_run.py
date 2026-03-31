@@ -10,31 +10,18 @@ import sklearn
 nltk.download('stopwords', quiet=True)
 nltk.download('wordnet', quiet=True)
 
-st.set_page_config(page_title="Sentiment Analysis", page_icon="", layout="centered")
-st.title(" Sentiment Analysis App for movies")
+st.set_page_config(page_title="Sentiment Analysis", page_icon="🎬", layout="centered")
+st.title("🎬 Movie Sentiment Analysis")
 
-# Force complete cache clearing
-st.cache_data.clear()
-st.cache_resource.clear()
-
-# Debug environment info
-st.write("Library versions:", {
-    "streamlit": st.__version__,
-    "sklearn": sklearn.__version__,
-    "nltk": nltk.__version__,
-})
-
-# Force model reload without caching
-def load_model_fresh():
+# Load model
+def load_model():
     with open('model.pkl', 'rb') as f:
         model = pickle.load(f)
     with open('vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
     return model, vectorizer
 
-# Load model fresh every time
-model, vectorizer = load_model_fresh()
-st.success("✅ Model loaded successfully")
+model, vectorizer = load_model()
 
 def preprocess_text(text):
     lemmatizer = WordNetLemmatizer()
@@ -68,22 +55,19 @@ def preprocess_text(text):
     
     return ' '.join(processed_words)
 
-# Quick test cases
+# Test cases
 test_cases = ["actor is ugly", "movie so not good", "movie is good", "the acting was not bad"]
 selected = st.selectbox("Quick test:", test_cases)
 
 if st.button("Test Selected"):
     processed = preprocess_text(selected)
-    st.write("Processed text:", processed)  # ✅ Debug output
-
     vectorized = vectorizer.transform([processed]).toarray()
     prediction = model.predict(vectorized)[0]
     sentiment = "Positive" if prediction == 1 else "Negative"
-    st.write(f"**{selected}** → {sentiment}")
-    
-    # Debug info
     confidence = max(model.predict_proba(vectorized)[0]) * 100
-    st.write(f"🔧 Confidence: {confidence:.1f}%")
+    
+    st.write(f"**{selected}** → {sentiment}")
+    st.write(f"Confidence: {confidence:.1f}%")
 
 # User input
 user_input = st.text_area("Enter your review:", height=100)
@@ -91,8 +75,6 @@ user_input = st.text_area("Enter your review:", height=100)
 if st.button("Analyze Sentiment"):
     if user_input.strip():
         processed = preprocess_text(user_input)
-        st.write("Processed text:", processed)  # ✅ Debug output
-
         vectorized = vectorizer.transform([processed]).toarray()
         prediction = model.predict(vectorized)[0]
         confidence = max(model.predict_proba(vectorized)[0]) * 100
