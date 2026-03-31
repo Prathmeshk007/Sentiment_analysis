@@ -1,29 +1,17 @@
 ﻿import streamlit as st
 import pickle
 import re
-import subprocess
-import sys
-import sklearn
 import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import sklearn
 
-# Try to install nltk if not available
-try:
-    import nltk
-    from nltk.corpus import stopwords
-    from nltk.stem import WordNetLemmatizer
-except ImportError:
-    st.write("🔧 Installing NLTK...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "nltk==3.6.7"])
-    import nltk
-    from nltk.corpus import stopwords
-    from nltk.stem import WordNetLemmatizer
+# Download NLTK resources once at the top
+nltk.download('stopwords', quiet=True)
+nltk.download('wordnet', quiet=True)
 
-# ✅ Download NLTK resources once at the top
-nltk.download('stopwords')
-nltk.download('wordnet')
-
-st.set_page_config(page_title="Sentiment Analysis", page_icon="🎬", layout="centered")
-st.title("🎬 Sentiment Analysis App for movies")
+st.set_page_config(page_title="Sentiment Analysis", page_icon="", layout="centered")
+st.title(" Sentiment Analysis App for movies")
 
 # Force complete cache clearing
 st.cache_data.clear()
